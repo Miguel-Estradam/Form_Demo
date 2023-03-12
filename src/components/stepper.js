@@ -2,11 +2,11 @@ import React from 'react';
 import Logo from '../assets/img/logo.png';
 
 import { Stepper, Step } from "react-form-stepper";
-function StepperC({activate}) {
-    console.log(activate)
+function StepperC(activate) {
+    console.log(activate.enviarActivate)
   return (
     <Stepper
-    activeStep={activate}
+    activeStep={activate.enviarActivate}
     styleConfig={{
       activeBgColor: "#002060",
       activeTextColor: "#fff",
