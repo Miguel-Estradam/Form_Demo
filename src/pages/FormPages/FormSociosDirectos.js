@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row"
+import Row from "react-bootstrap/Row";
+import { $ }  from 'react-jquery-plugin'
 export const FormSociosDirectos = () => {
   return (
     <div className="formConocimiento p-2 d-grid h-100 ">

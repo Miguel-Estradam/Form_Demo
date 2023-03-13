@@ -18,12 +18,10 @@ function FormC() {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("You clicked submit.");
     setContador(contador +1);
   }
   function handleVolver(e) {
     e.preventDefault();
-    console.log("You clicked submit.");
     setContador(contador -1);
   }
   
