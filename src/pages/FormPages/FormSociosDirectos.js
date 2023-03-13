@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
-export const FormConocimiento = () => {
+import Row from "react-bootstrap/Row"
+export const FormSociosDirectos = () => {
   return (
     <div className="formConocimiento p-2 d-grid h-100 ">
       <h4 className="text-center">
@@ -17,12 +18,12 @@ export const FormConocimiento = () => {
           <legend className="mt-0 pt-0 h5 text-center">
             1.1. Datos Generales
           </legend>
-          <div className="row align-items-start">
-            <Form.Group className=" col-4 ">
+          <Row className="row align-items-start">
+            <Form.Group className=" col-md-12 col-lg-4 ">
               <Form.Label htmlFor="disabledTextInput">Razon Social</Form.Label>
               <Form.Control id="Razonsocial1" placeholder="Razon Social" />
             </Form.Group>
-            <Form.Group className=" p-0 col-5 d-flex">
+            <Form.Group className=" p-0 col-lg-5 col-md-6 d-flex">
               <div className="col-4">
                 <Form.Label htmlFor="disabledTextInput">
                   Tipo de Documento
@@ -59,7 +60,7 @@ export const FormConocimiento = () => {
               </div>
             </Form.Group>
 
-            <Form.Group className=" col-3 ">
+            <Form.Group className=" col-lg-3 col-md-6">
               <Form.Label htmlFor="disabledTextInput">
                 Tipo de Empresa
               </Form.Label>
@@ -94,7 +95,7 @@ export const FormConocimiento = () => {
                 ))}
               </div>
             </Form.Group>
-          </div>
+          </Row>
           <div className="row align-items-start">
             <Form.Group className=" col-2">
               <Form.Label htmlFor="disabledTextInput">

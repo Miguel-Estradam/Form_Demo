@@ -12,7 +12,7 @@ function StepperC(activate) {
       activeTextColor: "#fff",
       inactiveBgColor: "#fff",
       inactiveTextColor: "#002060",
-      completedBgColor: "#21C9C5",
+      completedBgColor: "#0020e0",
       completedTextColor: "#fff",
       size: "2em",
     }}
@@ -20,9 +20,10 @@ function StepperC(activate) {
     stepClassName={"stepper__step"}
   >
     <Step className="step" label="Conocimiento del Cliente" />
-    <Step className="step" label="2" />
-    <Step className="step" label="3" />
-    <Step className="step" label="4" />
+    <Step className="step" label="Conocimiento del Cliente Parte2" />
+    <Step className="step" label="Conocimiento del Cliente Parte3" />
+    <Step className="step" label="Socios Directos" />
+    <Step className="step" label="Socios Indirectos" />
   </Stepper>
   );
 }
