@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-export const FormConocimientoP2 = () => {
+import { $ } from "react-jquery-plugin";
+import { GeneratePDF } from "../PDF/GeneratePDF";
+
+export const FormConocimientoP2 = ({ formulario, handleChange }) => {
+  const [showPDF, setShowPDF] = useState(false);
+
+  // const activarSociedad = () => {
+  //   $(".sociedad1").removeClass("d-none").addClass("d-block");
+  //   $(".sociedad2").removeClass("d-none").addClass("d-flex");
+  // };
+  // const desactivarSociedad = () => {
+  //   $(".sociedad1").removeClass("d-block").addClass("d-none");
+  //   $(".sociedad2").removeClass("d-flex").addClass("d-none");
+  // };
   return (
     <div className="formConocimiento p-2 d-grid h-100 ">
       <h4 className="text-center">
-        {" "}
         FORMULARIO DE CONOCIMIENTO ­ PERSONA JURÍDICA/ ESTRUCTURA SIN PERSONERÍA
         JURÍDICA{" "}
       </h4>
       <h5 className="text-center">
-        {" "}
         I. INFORMACIÓN DE CONOCIMIENTO DEL CLIENTE
       </h5>
       <Form className="Formulario">
@@ -37,18 +49,31 @@ export const FormConocimientoP2 = () => {
                 </Form.Label>
                 <div className="text-center justify-content-center">
                   {["radio"].map((type) => (
-                    <div key={`inline-${type}`} className="  ">
+                    <div
+                      key={`inline-${type}`}
+                      className="  "
+                      id="sociosEspuestosPoliticamente"
+                      onChange={handleChange("sociosEspuestosPoliticamente")}
+                    >
                       <Form.Check
                         inline
                         label="Si"
-                        name="socios1"
+                        value="Si"
+                        name="sociosEspuestosPoliticamente"
+                        defaultChecked={
+                          formulario.sociosEspuestosPoliticamente === "Si"
+                        }
                         type={type}
                         id={`inline-${type}-1`}
                       />
                       <Form.Check
                         inline
                         label="No"
-                        name="socios1"
+                        value="No"
+                        name="sociosEspuestosPoliticamente"
+                        defaultChecked={
+                          formulario.sociosEspuestosPoliticamente === "No"
+                        }
                         type={type}
                         className=""
                         id={`inline-${type}-2`}
@@ -68,17 +93,30 @@ export const FormConocimientoP2 = () => {
                 </Form.Label>
                 <div className="text-center justify-content-center">
                   {["radio"].map((type) => (
-                    <div key={`inline-${type}`} className="  ">
+                    <div
+                      key={`inline-${type}`}
+                      className="  "
+                      id="inscritoRegistroNacional"
+                      onChange={handleChange("inscritoRegistroNacional")}
+                    >
                       <Form.Check
                         inline
                         label="Si"
-                        name="socios1"
+                        name="inscritoRegistroNacional"
+                        value={"Si"}
+                        defaultChecked={
+                          formulario.inscritoRegistroNacional === "Si"
+                        }
                         type={type}
                         id={`inline-${type}-1`}
                       />
                       <Form.Check
                         inline
                         label="No"
+                        value="No"
+                        defaultChecked={
+                          formulario.inscritoRegistroNacional === "Si"
+                        }
                         name="socios1"
                         type={type}
                         className=""
@@ -102,12 +140,49 @@ export const FormConocimientoP2 = () => {
             </Form.Group>
           </Row>
         </div>
-        <div className="seccion">
+        {/* <div className="seccion">
           <legend className="mt-0 pt-0 h5 text-center">
             1.6. Operaciones Internacionales
           </legend>
-          </div>
+          <Row>
+            <Form.Group className=" col-12 col-sm-12 col-md-12 col-lg-4 ">
+              <div className=" col-sm-12 col-12">
+                <Form.Label htmlFor="disabledTextInput" className="text-center">
+                  ¿Realiza Operaciones en moneda Extranjera?
+                </Form.Label>
+                <div className="text-center justify-content-center">
+                  {["radio"].map((type) => (
+                    <div key={`inline-${type}`} className="  ">
+                      <Form.Check
+                        inline
+                        label="Si"
+                        name="operaciones"
+                        type={type}
+                        id={`inline-${type}-1`}
+                      />
+                      <Form.Check
+                        inline
+                        label="No"
+                        name="operaciones"
+                        type={type}
+                        className=""
+                        id={`inline-${type}-2`}
+                      />
+                    </div>
+                  ))}
+                </div> */}
+        {/* </div> */}
+        {/* </Form.Group> */}
+        {/* </Row> */}
+        {/* </div> */}
       </Form>
+
+      <GeneratePDF
+        showPDF={showPDF}
+        setShowPDF={setShowPDF}
+        formulario={formulario}
+      />
+      <Button onClick={() => setShowPDF(true)}>Generar PDF</Button>
     </div>
   );
 };

@@ -1,33 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import { Button } from "react-bootstrap";
 import { $ } from "react-jquery-plugin";
-export const FormConocimiento = () => {
+import InputGroup from "react-bootstrap/InputGroup";
+export const FormConocimiento = ({ formulario, handleChange }) => {
   const onChange2 = (e) => {
     const file = e.target.files[0];
   };
-  function activarTin1() {
-    const Tin = document.getElementsByClassName("Tin1");
-    console.log(Tin);
-    $(".Tin1").addClass("activateTin");
-  }
-  function desactivarTin1() {
-    $(".Tin1").removeClass("activateTin");
-  }
-  function activarTin1() {
-    $(".Tin1").addClass("activate");
-  }
-  function desactivarTin1() {
-    $(".Tin1").removeClass("activate");
-  }
-  const activarSociedad = () => {
-    $(".sociedad1").removeClass("d-none").addClass("d-block");
-    $(".sociedad2").removeClass("d-none").addClass("d-flex");
-  };
-  const desactivarSociedad = () => {
-    $(".sociedad1").removeClass("d-block").addClass("d-none");
-    $(".sociedad2").removeClass("d-flex").addClass("d-none");
-  };
+
+  setTimeout(() => {
+    if (formulario.obligadoATributar === "Si") {
+      $(".Tin1").addClass("activate");
+    } else {
+      $(".Tin1").removeClass("activate");
+    }
+    if (formulario.controlantePersona === "Si") {
+      $(".sociedad1").removeClass("d-none").addClass("d-block");
+      $(".sociedad2").removeClass("d-none").addClass("d-flex");
+    } else {
+      $(".sociedad1").removeClass("d-block").addClass("d-none");
+      $(".sociedad2").removeClass("d-flex").addClass("d-none");
+    }
+  }, 100);
+
   return (
     <div className="formConocimiento p-2 d-grid h-100 ">
       <h4 className="text-center">
@@ -47,41 +43,50 @@ export const FormConocimiento = () => {
           <Row className="row align-items-start">
             <Form.Group className="  col-sm-12 col-md-10 col-lg-6 ">
               <Form.Label htmlFor="disabledTextInput">Razon Social</Form.Label>
-              <Form.Control id="Razonsocial1" placeholder="Razon Social" />
+              <Form.Control
+                id="Razonsocial1"
+                placeholder="Razon Social"
+                defaultValue={formulario.razonSocial1}
+                onChange={handleChange("razonSocial1")}
+                required
+              />
             </Form.Group>
             <Form.Group className="  col-sm-12 col-md-8 col-lg-6 d-flex justify-content-end">
               <div className="col-sm-4 col-5">
                 <Form.Label htmlFor="disabledTextInput">
                   Tipo de Documento
                 </Form.Label>
-                <div>
-                  {["radio"].map((type) => (
-                    <div key={`inline-${type}`} className=" small ">
-                      <Form.Check
-                        inline
-                        label="NIT"
-                        name="documento1"
-                        type={type}
-                        id={`inline-${type}-1`}
-                      />
-                      <Form.Check
-                        inline
-                        label="SE/SIN NIT"
-                        name="documento1"
-                        type={type}
-                        id={`inline-${type}-2`}
-                      />
-                    </div>
-                  ))}
-                </div>
+                <Form.Group>
+                  <Form.Select
+                    id="tipoIRazonSocial1"
+                    aria-label="Default select example "
+                    defaultValue={formulario.tipoIRazonsocial1}
+                    onChange={handleChange("tipoIRazonsocial1")}
+                  >
+                    <option value="NIT">NIT</option>
+                    <option value="SE/Sin NIT">SE/Sin NIT</option>
+                  </Form.Select>
+                </Form.Group>
               </div>
               <div className="col-6">
-                <Form.Label htmlFor="disabledTextInput">Numero</Form.Label>
-                <Form.Control id="documentoRazon" placeholder="1007524364" />
+                <Form.Label htmlFor="disabledTextInput">Numero:</Form.Label>
+                <Form.Control
+                  id="identificacionRazonSocial1"
+                  placeholder="1007524364"
+                  type="number"
+                  required
+                  defaultValue={formulario.identificacionRazonSocial1}
+                  onChange={handleChange("identificacionRazonSocial1")}
+                />
               </div>
               <div className="col-1 ">
                 <Form.Label htmlFor="disabledTextInput">D.V</Form.Label>
-                <Form.Control id="documentoRazon" placeholder="" />
+                <Form.Control
+                  id="dvRazonsocial1"
+                  placeholder=""
+                  defaultValue={formulario.dvRazonsocial1}
+                  onChange={handleChange("dvRazonsocial1")}
+                />
               </div>
             </Form.Group>
 
@@ -91,30 +96,48 @@ export const FormConocimiento = () => {
               </Form.Label>
               <div>
                 {["radio"].map((type) => (
-                  <div key={`inline-${type}`} className=" small ">
+                  <div
+                    key={`inline-${type}`}
+                    id="TipoEmpresa"
+                    className=" small "
+                    //Checked={formulario.TipoEmpresa}
+                    onChange={handleChange("TipoEmpresa")}
+                  >
                     <Form.Check
                       inline
                       label="Publica"
-                      name="Empresa1"
+                      name="Empresa"
                       type={type}
+                      value={"Publica"}
                       className=""
-                      id={`inline-${type}-1`}
+                      defaultChecked={
+                        formulario.TipoEmpresa === "Publica" ? true : false
+                      }
+                      id={`Publica`}
                     />
                     <Form.Check
                       inline
                       label="Privada"
-                      name="Empresa1"
+                      name="Empresa"
                       type={type}
                       className=""
-                      id={`inline-${type}-2`}
+                      defaultChecked={
+                        formulario.TipoEmpresa === "Privada" ? true : false
+                      }
+                      value={"Privada"}
+                      id={`Privada`}
                     />
                     <Form.Check
                       inline
                       label="Mixta"
-                      name="group1"
+                      name="Empresa"
                       type={type}
                       className=""
-                      id={`inline-${type}-3`}
+                      value={"Mixta"}
+                      defaultChecked={
+                        formulario.TipoEmpresa === "Mixta" ? true : false
+                      }
+                      id={`Mixta`}
                     />
                   </div>
                 ))}
@@ -127,8 +150,11 @@ export const FormConocimiento = () => {
               </Form.Label>
               <Form.Control
                 type="date"
-                id="RazonSocialE"
+                id="fechaConstitucion"
                 placeholder="12/12/2022"
+                defaultValue={formulario.fechaConstitucion}
+                onChange={handleChange("fechaConstitucion")}
+                aria-required
               />
             </Form.Group>
             <Form.Group className=" col-sm-12 col-md-8 col-lg-6 d-flex">
@@ -136,23 +162,39 @@ export const FormConocimiento = () => {
                 <Form.Label htmlFor="disabledTextInput" className="text-center">
                   ¿Empresa Constituida en otro País?
                 </Form.Label>
-                <div className="text-center justify-content-center">
+                <div
+                  className="text-center justify-content-center"
+                  aria-required
+                >
                   {["radio"].map((type) => (
-                    <div key={`inline-${type}`} className="  ">
+                    <div
+                      id="empresaConstitucion"
+                      key={`empresaConstitucion}`}
+                      className="  "
+                      onChange={handleChange("empresaConstitucion")}
+                    >
                       <Form.Check
                         inline
                         label="Si"
-                        name="empresa1"
+                        name="empresaConstitucion"
                         type={type}
-                        id={`inline-${type}-1`}
+                        value={"Si"}
+                        defaultChecked={
+                          formulario.empresaConstitucion === "Si" ? true : false
+                        }
+                        id={`empresaContitucionSi`}
                       />
                       <Form.Check
                         inline
                         label="No"
-                        name="empresa1"
+                        name="empresaConstitucion"
                         type={type}
+                        value={"No"}
                         className=""
-                        id={`inline-${type}-2`}
+                        defaultChecked={
+                          formulario.empresaConstitucion === "No" ? true : false
+                        }
+                        id={`empresaContitucionNo`}
                       />
                     </div>
                   ))}
@@ -160,20 +202,35 @@ export const FormConocimiento = () => {
               </div>
               <Form.Group className="col-6 col-sm-6 ml">
                 <Form.Label htmlFor="disabledTextInput">¿Cuál?</Form.Label>
-                <Form.Control id="RazonSocialE" placeholder="Colombia" />
+                <Form.Control
+                  id="cualEmpresa"
+                  placeholder=""
+                  defaultValue={formulario.cualEmpresa}
+                  onChange={handleChange("cualEmpresa")}
+                />
               </Form.Group>
             </Form.Group>
             <Form.Group className=" col-12 col-sm-6 col-md-4 col-lg-3 ">
               <Form.Label htmlFor="disabledTextInput">
                 Tipo de Sociedad/Entidad
               </Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                id="tipoSociedadEntidad"
+                placeholder=""
+                defaultValue={formulario.tipoSociedadEntidad}
+                onChange={handleChange("tipoSociedadEntidad")}
+              />
             </Form.Group>
             <Form.Group className=" col-12 col-sm-6 col-md-4 col-lg-3 ">
               <Form.Label htmlFor="disabledTextInput">
                 Actividad Económica principal
               </Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="12/12/2022" />
+              <Form.Control
+                id="actividadEconomica1"
+                placeholder=""
+                defaultValue={formulario.actividadEconomica1}
+                onChange={handleChange("actividadEconomica1")}
+              />
             </Form.Group>
 
             <Form.Group className=" col-6 col-sm-6 col-md-4 col-lg-3 ">
@@ -183,21 +240,38 @@ export const FormConocimiento = () => {
                 </Form.Label>
                 <div className="text-center justify-content-center">
                   {["radio"].map((type) => (
-                    <div key={`inline-${type}`} className=" small ">
+                    <div
+                      id="estructuraSinPersoneria"
+                      key={`estructuraSinPersoneria`}
+                      className=" small "
+                      onChange={handleChange("estructuraSinPersoneria")}
+                    >
                       <Form.Check
                         inline
                         label="Si"
                         name="estructura1"
                         type={type}
-                        id={`inline-${type}-1`}
+                        value={"Si"}
+                        defaultChecked={
+                          formulario.estructuraSinPersoneria === "Si"
+                            ? true
+                            : false
+                        }
+                        id={`estructuraSinPersoneriaSi`}
                       />
                       <Form.Check
                         inline
                         label="No"
                         name="estructura1"
                         type={type}
+                        value={"No"}
+                        defaultChecked={
+                          formulario.estructuraSinPersoneria === "No"
+                            ? true
+                            : false
+                        }
                         className=""
-                        id={`inline-${type}-2`}
+                        id={`estructuraSinPersoneriaNo`}
                       />
                     </div>
                   ))}
@@ -206,7 +280,12 @@ export const FormConocimiento = () => {
             </Form.Group>
             <Form.Group className=" col-6 col-sm-6 col-md-4 col-lg-3 ">
               <Form.Label htmlFor="disabledTextInput">Código CIIU</Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="12/12/2022" />
+              <Form.Control
+                id="codigoCIIU"
+                placeholder=""
+                defaultValue={formulario.codigoCIIU}
+                onChange={handleChange("codigoCIIU")}
+              />
             </Form.Group>
             <Form.Group className=" col-12 col-sm-6 col-md-8 col-lg-8 ">
               <div className=" col-sm-12 col-12">
@@ -216,12 +295,21 @@ export const FormConocimiento = () => {
                 </Form.Label>
                 <div className="text-center justify-content-center">
                   {["radio"].map((type) => (
-                    <div key={`inline-${type}`} className=" small ">
+                    <div
+                      key={`inline-${type}`}
+                      className=" small "
+                      id="obligadoAImplementar"
+                      onChange={handleChange("obligadoAImplementar")}
+                    >
                       <Form.Check
                         inline
                         label="Si"
                         name="SiNoObligacion1"
                         type={type}
+                        value={"Si"}
+                        defaultChecked={
+                          formulario.obligadoAImplementar === "Si"
+                        }
                         id={`inline-${type}-1`}
                       />
                       <Form.Check
@@ -230,6 +318,10 @@ export const FormConocimiento = () => {
                         name="SiNoObligacion1"
                         type={type}
                         className=""
+                        value={"No"}
+                        defaultChecked={
+                          formulario.obligadoAImplementar === "No"
+                        }
                         id={`inline-${type}-2`}
                       />
                     </div>
@@ -244,23 +336,30 @@ export const FormConocimiento = () => {
                 </Form.Label>
                 <div className="text-center justify-content-center">
                   {["radio"].map((type) => (
-                    <div key={`inline-${type}`} className=" small ">
+                    <div
+                      key={`inline-${type}`}
+                      className=" small "
+                      id="obligadoATributar"
+                      onChange={handleChange("obligadoATributar")}
+                    >
                       <Form.Check
                         inline
                         label="Si"
                         name="SiNoObligacion2"
                         type={type}
+                        value={"Si"}
+                        defaultChecked={formulario.obligadoATributar === "Si"}
                         id={`inline-${type}-1`}
-                        onClick={activarTin1}
                       />
                       <Form.Check
                         inline
                         label="No"
                         name="SiNoObligacion2"
                         type={type}
+                        value={"No"}
+                        defaultChecked={formulario.obligadoATributar === "No"}
                         className="m-0 p0"
                         id={`inline-${type}-2`}
-                        onClick={desactivarTin1}
                       />
                     </div>
                   ))}
@@ -269,19 +368,39 @@ export const FormConocimiento = () => {
             </Form.Group>
             <Form.Group className=" col-12 col-sm-6 col-md-4 col-lg-3  d-none Tin1">
               <Form.Label htmlFor="disabledTextInput">Pais 1</Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                id="tributarPais1"
+                placeholder=""
+                defaultValue={formulario.tributarPais1}
+                onChange={handleChange("tributarPais1")}
+              />
             </Form.Group>
             <Form.Group className=" col-12 col-sm-6 col-md-4 col-lg-3  d-none Tin1">
               <Form.Label htmlFor="disabledTextInput">Pais 2</Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                id="tributarPais2"
+                placeholder=""
+                defaultValue={formulario.tributarPais2}
+                onChange={handleChange("tributarPais2")}
+              />
             </Form.Group>
             <Form.Group className=" col-12 col-sm-6 col-md-4 col-lg-3  d-none Tin1">
               <Form.Label htmlFor="disabledTextInput">TIN 1</Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                id="tributarTin1"
+                placeholder=""
+                defaultValue={formulario.tributarTin1}
+                onChange={handleChange("tributarTin1")}
+              />
             </Form.Group>
             <Form.Group className=" col-12 col-sm-6 col-md-4 col-lg-3  d-none Tin1">
               <Form.Label htmlFor="disabledTextInput">TIN 2</Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                id="tributarTin2"
+                placeholder=""
+                defaultValue={formulario.tributarTin2}
+                onChange={handleChange("tributarTin2")}
+              />
             </Form.Group>
 
             <Form.Group className=" col-12 col-sm-12 col-md-12 col-lg-12 my-3 ">
@@ -299,23 +418,30 @@ export const FormConocimiento = () => {
                 </Form.Label>
                 <div className="text-center justify-content-center">
                   {["radio"].map((type) => (
-                    <div key={`inline-${type}`} className="  ">
+                    <div
+                      key={`inline-${type}`}
+                      className="  "
+                      id="controlantePersona"
+                      onChange={handleChange("controlantePersona")}
+                    >
                       <Form.Check
                         inline
                         label="Si"
-                        name="empresa2"
+                        name="controlantePersona"
                         type={type}
+                        value={"Si"}
+                        defaultChecked={formulario.controlantePersona === "Si"}
                         id={`inline-${type}-1`}
-                        onClick={activarSociedad}
                       />
                       <Form.Check
                         inline
                         label="No"
-                        name="empresa2"
+                        name="controlantePersona"
                         type={type}
                         className=""
+                        value={"No"}
+                        defaultChecked={formulario.controlantePersona === "No"}
                         id={`inline-${type}-2`}
-                        onClick={desactivarSociedad}
                       />
                     </div>
                   ))}
@@ -323,58 +449,74 @@ export const FormConocimiento = () => {
               </div>
             </Form.Group>
             <Form.Group className=" col-12 col-sm-12 col-md-5 col-lg-6 d-none sociedad1 mb-2  ">
-              <Form.Label htmlFor="disabledTextInput">
+              <Form.Label htmlFor="disabledTextInput" id="">
                 Nombre/Razón Social:
               </Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                id="nombreRazonSocial"
+                placeholder=""
+                defaultValue={formulario.nombreRazonSocial}
+                onChange={handleChange("nombreRazonSocial")}
+              />
             </Form.Group>
-            <Form.Group className="  col-sm-12 col-md-7 col-lg-6 d-flex d-none sociedad2 mb-2 ">
-              <div className="col-sm-4 col-5">
+            <Form.Group className="  col-sm-12 col-md-8 col-lg-6 d-flex d-none sociedad2 justify-content-end">
+              <div className="col-sm-4 col-5 ">
                 <Form.Label htmlFor="disabledTextInput">
                   Tipo de Documento
                 </Form.Label>
-                <div>
-                  {["radio"].map((type) => (
-                    <div key={`inline-${type}`} className=" small ">
-                      <Form.Check
-                        inline
-                        label="NIT"
-                        name="documento2"
-                        type={type}
-                        id={`inline-${type}-1`}
-                      />
-                      <Form.Check
-                        inline
-                        label="SE/SIN NIT"
-                        name="documento2"
-                        type={type}
-                        id={`inline-${type}-2`}
-                      />
-                    </div>
-                  ))}
-                </div>
+                <Form.Group>
+                  <Form.Select
+                    id="tipoIRazonSocial2"
+                    aria-label="Default select example "
+                    defaultValue={formulario.tipoIRazonsocial2}
+                    onChange={handleChange("tipoIRazonsocial2")}
+                  >
+                    <option value="NIT">NIT</option>
+                    <option value="SE/Sin NIT">SE/Sin NIT</option>
+                  </Form.Select>
+                </Form.Group>
               </div>
               <div className="col-6">
-                <Form.Label htmlFor="disabledTextInput">Numero</Form.Label>
-                <Form.Control id="documentoRazon" placeholder="1007524364" />
+                <Form.Label htmlFor="disabledTextInput">Numero:</Form.Label>
+                <Form.Control
+                  id="identificacionRazonSocial2"
+                  placeholder="1007524364"
+                  type="number"
+                  required
+                  defaultValue={formulario.identificacionRazonSocial2}
+                  onChange={handleChange("identificacionRazonSocial2")}
+                />
               </div>
               <div className="col-1 ">
                 <Form.Label htmlFor="disabledTextInput">D.V</Form.Label>
-                <Form.Control id="documentoRazon" placeholder="" />
+                <Form.Control
+                  id="dvRazonsocial2"
+                  placeholder=""
+                  defaultValue={formulario.dvRazonsocial2}
+                  onChange={handleChange("dvRazonsocial2")}
+                />
               </div>
             </Form.Group>
-
             <Form.Group className="col-6  col-sm-6  col-md-4 col-lg-6 mb-2 ">
               <Form.Label htmlFor="disabledTextInput">
                 ¿Cuál es el horizonte previsto en la relación comercial?:
               </Form.Label>
               <div>
                 {["radio"].map((type) => (
-                  <div key={`inline-${type}`} className=" small ">
+                  <div
+                    key={`inline-${type}`}
+                    className=" small "
+                    id="horizontePrevisto"
+                    onChange={handleChange("horizontePrevisto")}
+                  >
                     <Form.Check
                       inline
                       label="Menos de un año"
-                      name="Empresa1"
+                      name="horizontePrevisto"
+                      value="horizontePrevisto"
+                      defaultChecked={
+                        formulario.horizontePrevisto === "Menos de un año"
+                      }
                       type={type}
                       className="col-12 col-md-6 col-lg-4 m-0"
                       id={`inline-${type}-1`}
@@ -382,16 +524,24 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Entre 1 y 3 años"
-                      name="Empresa1"
+                      value="Entre 1 y 3 años"
+                      name="horizontePrevisto"
                       type={type}
+                      defaultChecked={
+                        formulario.horizontePrevisto === "Entre 1 y 3 años"
+                      }
                       className="col-12 col-md-6 col-lg-4 m-0"
                       id={`inline-${type}-2`}
                     />
                     <Form.Check
                       inline
                       label="Mayor a 3 años"
-                      name="Empresa1"
+                      name="horizontePrevisto"
+                      value="horizontePrevisto"
                       type={type}
+                      defaultChecked={
+                        formulario.horizontePrevisto === "horizontePrevisto"
+                      }
                       className="col-12 col-md-6 col-lg-4 m-0"
                       id={`inline-${type}-3`}
                     />
@@ -406,11 +556,21 @@ export const FormConocimiento = () => {
               </Form.Label>
               <div>
                 {["radio"].map((type) => (
-                  <div key={`inline-${type}`} className=" small ">
+                  <div
+                    key={`inline-${type}`}
+                    className=" small "
+                    id="medioDeDeposito"
+                    onChange={handleChange("medioDeDeposito")}
+                  >
                     <Form.Check
                       inline
                       label="Transferencias Internacionales"
-                      name="Empresa1"
+                      value="Transferencias Internacionales"
+                      name="medioDeDeposito"
+                      defaultChecked={
+                        formulario.medioDeDeposito ===
+                        "Transferencias Internacionales"
+                      }
                       type={type}
                       className="col-12 col-md-6 col-lg-6 m-0"
                       id={`inline-${type}-1`}
@@ -418,7 +578,12 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Transferencias Nacionales"
-                      name="Empresa1"
+                      value="Transferencias Nacionales"
+                      name="medioDeDeposito"
+                      defaultChecked={
+                        formulario.medioDeDeposito ===
+                        "Transferencias Nacionales"
+                      }
                       type={type}
                       className="col-12 col-md-5 col-lg-5 m-0"
                       id={`inline-${type}-2`}
@@ -426,7 +591,9 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Cheque"
-                      name="Empresa1"
+                      value="Cheque"
+                      name="medioDeDeposito"
+                      defaultChecked={formulario.medioDeDeposito === "Cheque"}
                       type={type}
                       className="col-12 col-md-6 col-lg-6 m-0"
                       id={`inline-${type}-3`}
@@ -434,7 +601,9 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Efectivo"
-                      name="Empresa1"
+                      value="Efectivo"
+                      name="medioDeDeposito"
+                      defaultChecked={formulario.medioDeDeposito === "Efectivo"}
                       type={type}
                       className="col-12 col-md-5 col-lg-5 m-0"
                       id={`inline-${type}-3`}
@@ -449,11 +618,21 @@ export const FormConocimiento = () => {
               </Form.Label>
               <div>
                 {["radio"].map((type) => (
-                  <div key={`inline-${type}`} className=" m-0 small ">
+                  <div
+                    key={`inline-${type}`}
+                    className=" m-0 small "
+                    id="propositoRelacion"
+                    onChange={handleChange("propositoRelacion")}
+                  >
                     <Form.Check
                       inline
                       label="Traslado de inmuebles para la administración"
-                      name="Empresa1"
+                      value="Traslado de inmuebles para la administración"
+                      name="propositoRelacion"
+                      defaultChecked={
+                        formulario.propositoRelacion ===
+                        "Traslado de inmuebles para la administración"
+                      }
                       type={type}
                       className="col-12 col-md-6 col-lg-4 m-0"
                       id={`inline-${type}-1`}
@@ -461,7 +640,12 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Administrar cuentas de terceros"
-                      name="Empresa1"
+                      value="Administrar cuentas de terceros"
+                      name="propositoRelacion"
+                      defaultChecked={
+                        formulario.propositoRelacion ===
+                        "Administrar cuentas de terceros"
+                      }
                       type={type}
                       className="col-12 col-md-5 col-lg-4 m-0"
                       id={`inline-${type}-2`}
@@ -469,7 +653,12 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Compra de unidad Inmobiliaria"
-                      name="Empresa1"
+                      value="Compra de unidad Inmobiliaria"
+                      name="propositoRelacion"
+                      defaultChecked={
+                        formulario.propositoRelacion ===
+                        "Compra de unidad Inmobiliaria"
+                      }
                       type={type}
                       className="col-12 col-md-6 col-lg-4 m-0"
                       id={`inline-${type}-3`}
@@ -477,7 +666,11 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Banca de Inversión"
-                      name="Empresa1"
+                      value="Banca de Inversión"
+                      name="propositoRelacion"
+                      defaultChecked={
+                        formulario.propositoRelacion === "Banca de Inversión"
+                      }
                       type={type}
                       className="col-12 col-md-5 col-lg-4 m-0"
                       id={`inline-${type}-3`}
@@ -485,7 +678,12 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Administrar recursos propios"
-                      name="Empresa1"
+                      value="Administrar recursos propios"
+                      name="propositoRelacion"
+                      defaultChecked={
+                        formulario.propositoRelacion ===
+                        "Administrar recursos propios"
+                      }
                       type={type}
                       className="col-12 col-md-6 col-lg-4 m-0"
                       id={`inline-${type}-3`}
@@ -493,7 +691,12 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Diversificación de portafolio"
-                      name="Empresa1"
+                      value="Diversificación de portafolio"
+                      name="propositoRelacion"
+                      defaultChecked={
+                        formulario.propositoRelacion ===
+                        "Diversificación de portafolio"
+                      }
                       type={type}
                       className="col-12 col-md-5 col-lg-4 m-0"
                       id={`inline-${type}-3`}
@@ -501,7 +704,11 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Dispersión de pagos"
-                      name="Empresa1"
+                      value="Dispersión de pagos"
+                      name="propositoRelacion"
+                      defaultChecked={
+                        formulario.propositoRelacion === "Dispersión de pagos"
+                      }
                       type={type}
                       className="col-12 col-md-6 col-lg-4 m-0"
                       id={`inline-${type}-3`}
@@ -509,7 +716,11 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Venta de TIDIS"
-                      name="Empresa1"
+                      value="Venta de TIDIS"
+                      name="propositoRelacion"
+                      defaultChecked={
+                        formulario.propositoRelacion === "Venta de TIDIS"
+                      }
                       type={type}
                       className="col-12 col-md-5 col-lg-4 m-0"
                       id={`inline-${type}-3`}
@@ -517,15 +728,23 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Venta de Acciones"
-                      name="Empresa1"
+                      value="Venta de Acciones"
+                      name="propositoRelacion"
+                      defaultChecked={
+                        formulario.propositoRelacion === "Venta de Acciones"
+                      }
                       type={type}
                       className="col-12 col-md-6 col-lg-4 m-0"
                       id={`inline-${type}-3`}
                     />
                     <Form.Check
                       inline
-                      label="  Negocios Fiduciarios"
-                      name="Empresa1"
+                      label="Negocios Fiduciarios"
+                      value="Negocios Fiduciarios"
+                      name="propositoRelacion"
+                      defaultChecked={
+                        formulario.propositoRelacion === "Negocios Fiduciarios"
+                      }
                       type={type}
                       className="col-12 col-md-5 col-lg-4 m-0"
                       id={`inline-${type}-3`}
@@ -533,7 +752,11 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Arrendatario PEI"
-                      name="Empresa1"
+                      value="Arrendatario PEI"
+                      name="propositoRelacion"
+                      defaultChecked={
+                        formulario.propositoRelacion === "Arrendatario PEI"
+                      }
                       type={type}
                       className="col-12 col-md-6 col-lg-4 m-0"
                       id={`inline-${type}-3`}
@@ -553,23 +776,50 @@ export const FormConocimiento = () => {
               <Form.Label htmlFor="disabledTextInput">
                 Dirección Oficina Principal o Sede:
               </Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                id="datosDireccion"
+                placeholder=""
+                defaultValue={formulario.datosDireccion}
+                onChange={handleChange("datosDireccion")}
+              />
             </Form.Group>
             <Form.Group className=" col-12 col-sm-6 col-md-4 col-lg-3 mb-2 ">
               <Form.Label htmlFor="disabledTextInput">Ciudad:</Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                id="datosCiudad"
+                placeholder=""
+                defaultValue={formulario.datosCiudad}
+                onChange={handleChange("datosCiudad")}
+              />
             </Form.Group>
             <Form.Group className=" col-12 col-sm-6 col-md-4 col-lg-3 mb-2 ">
               <Form.Label htmlFor="disabledTextInput">Pais:</Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                id="datosPais"
+                placeholder=""
+                defaultValue={formulario.datosPais}
+                onChange={handleChange("datosPais")}
+              />
             </Form.Group>
             <Form.Group className=" col-12 col-sm-6 col-md-4 col-lg-3 mb-2 ">
               <Form.Label htmlFor="disabledTextInput">Teléfono:</Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                id="datosTelefono"
+                placeholder=""
+                type="number"
+                defaultValue={formulario.datosTelefono}
+                onChange={handleChange("datosTelefono")}
+              />
             </Form.Group>
             <Form.Group className=" col-12 col-sm-6 col-md-4 col-lg-3 mb-2 ">
               <Form.Label htmlFor="disabledTextInput">E-mail:</Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                id="datosCorreo"
+                placeholder=""
+                type="email"
+                defaultValue={formulario.datosCorreo}
+                onChange={handleChange("datosCorreo")}
+              />
             </Form.Group>
           </Row>
         </div>
@@ -585,27 +835,46 @@ export const FormConocimiento = () => {
               </Form.Label>
               <div className="d-block">
                 {["radio"].map((type) => (
-                  <div key={`inline-${type}`} className=" small ">
+                  <div
+                    key={`inline-${type}`}
+                    className=" small "
+                    id="tipoAutoretencion"
+                    onChange={handleChange("tipoAutoretencion")}
+                  >
                     <Form.Check
                       inline
                       label="Autorretenedor por Rendimientos Financieros"
-                      name="Empresa1"
+                      value="Autorretenedor por Rendimientos Financieros"
+                      name="tipoAutoretencion"
+                      defaultChecked={
+                        formulario.tipoAutoretencion ===
+                        "Autorretenedor por Rendimientos Financieros"
+                      }
                       type={type}
                       className="col-12"
                       id={`inline-${type}-1`}
                     />
                     <Form.Check
                       inline
-                      label="Privada"
-                      name="Autorretenedor por otros Conceptos"
+                      label="Autorretenedor por otros Conceptos"
+                      value="Autorretenedor por otros Conceptos"
+                      name="tipoAutoretencion"
+                      defaultChecked={
+                        formulario.tipoAutoretencion ===
+                        "Autorretenedor por otros Conceptos"
+                      }
                       type={type}
                       className="col-12"
                       id={`inline-${type}-2`}
                     />
                     <Form.Check
                       inline
-                      label="Mixta"
-                      name="Otros conceptos"
+                      label="Otros conceptos"
+                      value="Otros conceptos"
+                      name="tipoAutoretencion"
+                      defaultChecked={
+                        formulario.tipoAutoretencion === "Otros conceptos"
+                      }
                       type={type}
                       className="col-12"
                       id={`inline-${type}-3`}
@@ -620,11 +889,20 @@ export const FormConocimiento = () => {
               </Form.Label>
               <div>
                 {["radio"].map((type) => (
-                  <div key={`inline-${type}`} className=" small ">
+                  <div
+                    key={`inline-${type}`}
+                    className=" small "
+                    id="catalogoFiscal"
+                    onChange={handleChange("catalogoFiscal")}
+                  >
                     <Form.Check
                       inline
                       label="Gran Contribuyente"
-                      name="Empresa1"
+                      value="Gran Contribuyente"
+                      name="catalogoFiscal"
+                      defaultChecked={
+                        formulario.catalogoFiscal === "Gran Contribuyente"
+                      }
                       type={type}
                       className="col-6"
                       id={`inline-${type}-1`}
@@ -632,7 +910,9 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Sujeto"
-                      name="Empresa1"
+                      value="Sujeto"
+                      name="catalogoFiscal"
+                      defaultChecked={formulario.catalogoFiscal === "Sujeto"}
                       type={type}
                       className="col-5"
                       id={`inline-${type}-2`}
@@ -640,7 +920,9 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="No Sujeto"
-                      name="Empresa1"
+                      value="No Sujeto"
+                      name="catalogoFiscal"
+                      defaultChecked={formulario.catalogoFiscal === "No Sujeto"}
                       type={type}
                       className="col-6"
                       id={`inline-${type}-3`}
@@ -648,7 +930,11 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Régimen Simple"
-                      name="Empresa1"
+                      value="Régimen Simple"
+                      name="catalogoFiscal"
+                      defaultChecked={
+                        formulario.catalogoFiscal === "Régimen Simple"
+                      }
                       type={type}
                       className="col-5"
                       id={`inline-${type}-3`}
@@ -656,7 +942,11 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Régimen Especial"
-                      name="Empresa1"
+                      value="Régimen Especial"
+                      name="catalogoFiscal"
+                      defaultChecked={
+                        formulario.catalogoFiscal === "Régimen Especial"
+                      }
                       type={type}
                       className="col-6"
                       id={`inline-${type}-3`}
@@ -671,19 +961,28 @@ export const FormConocimiento = () => {
               </Form.Label>
               <div className="justify-content-center">
                 {["radio"].map((type) => (
-                  <div key={`inline-${type}`} className=" small ">
+                  <div
+                    key={`inline-${type}`}
+                    className=" small "
+                    id="resposableIva"
+                    onChange={handleChange("resposableIva")}
+                  >
                     <Form.Check
                       inline
-                      label="No"
-                      name="Responsable1"
+                      label="Si"
+                      value="Si"
+                      name="resposableIva"
+                      defaultChecked={formulario.resposableIva === "Si"}
                       type={type}
                       className=""
                       id={`inline-${type}-1`}
                     />
                     <Form.Check
                       inline
-                      label="Si"
-                      name="Responsable2"
+                      label="No"
+                      value="No"
+                      name="resposableIva"
+                      defaultChecked={formulario.resposableIva === "No"}
                       type={type}
                       className=""
                       id={`inline-${type}-2`}
@@ -702,11 +1001,21 @@ export const FormConocimiento = () => {
 
               <div>
                 {["radio"].map((type) => (
-                  <div key={`inline-${type}`} className=" small ">
+                  <div
+                    key={`inline-${type}`}
+                    className=" small "
+                    id="condicionesTributarias"
+                    onChange={handleChange("condicionesTributarias")}
+                  >
                     <Form.Check
                       inline
                       label="Autorretenedor por Rendimientos Financieros"
-                      name="Responsable1"
+                      value="Autorretenedor por Rendimientos Financieros"
+                      name="condicionesTributarias"
+                      defaultChecked={
+                        formulario.condicionesTributarias ===
+                        "Autorretenedor por Rendimientos Financieros"
+                      }
                       type={type}
                       className=""
                       id={`inline-${type}-1`}
@@ -714,7 +1023,12 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="Autorretenedor por otros Conceptos"
-                      name="Responsable2"
+                      value="Autorretenedor por otros Conceptos"
+                      name="condicionesTributarias"
+                      defaultChecked={
+                        formulario.condicionesTributarias ===
+                        "Autorretenedor por otros Conceptos"
+                      }
                       type={type}
                       className=""
                       id={`inline-${type}-2`}
@@ -722,7 +1036,11 @@ export const FormConocimiento = () => {
                     <Form.Check
                       inline
                       label="No Sujeto"
-                      name="Responsable2"
+                      value="No Sujeto"
+                      name="condicionesTributarias"
+                      defaultChecked={
+                        formulario.condicionesTributarias === "No Sujeto"
+                      }
                       type={type}
                       className=""
                       id={`inline-${type}-2`}
@@ -743,7 +1061,12 @@ export const FormConocimiento = () => {
               <Form.Label htmlFor="disabledTextInput">
                 Nombre/Razón Social:
               </Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                placeholder=""
+                id="razonSocial3RepresentanteLegal"
+                defaultValue={formulario.razonSocial3RepresentanteLegal}
+                onChange={handleChange("razonSocial3RepresentanteLegal")}
+              />
             </Form.Group>
             <Form.Group className="  col-sm-12 col-md-7 col-lg-6 d-flex ">
               <div className="col-sm-5 col-5">
@@ -751,7 +1074,16 @@ export const FormConocimiento = () => {
                   Tipo de documento
                 </Form.Label>
                 <Form.Group>
-                  <Form.Select aria-label="Default select example ">
+                  <Form.Select
+                    aria-label="Default select example "
+                    id="tipoIRazonsocial3RepresentanteLegal"
+                    defaultValue={
+                      formulario.tipoIRazonsocial3RepresentanteLegal
+                    }
+                    onChange={handleChange(
+                      "tipoIRazonsocial3RepresentanteLegal"
+                    )}
+                  >
                     <option value="C.C">C.C</option>
                     <option value="C.D">C.D</option>
                     <option value="C.E">C.E</option>
@@ -763,26 +1095,58 @@ export const FormConocimiento = () => {
               </div>
               <div className="col-6">
                 <Form.Label htmlFor="disabledTextInput">Numero</Form.Label>
-                <Form.Control id="documentoRazon" placeholder="1007524364" />
+                <Form.Control
+                  type="number"
+                  placeholder="1007524364"
+                  id="identificacionRazonSocial3RepresentanteLegal"
+                  defaultValue={
+                    formulario.identificacionRazonSocial3RepresentanteLegal
+                  }
+                  onChange={handleChange(
+                    "identificacionRazonSocial3RepresentanteLegal"
+                  )}
+                />
               </div>
               <div className="col-1 ">
                 <Form.Label htmlFor="disabledTextInput">D.V</Form.Label>
-                <Form.Control id="documentoRazon" placeholder="" />
+                <Form.Control
+                  id="dvRazonsocial3RepresentanteLegal"
+                  type="number"
+                  placeholder=""
+                  defaultValue={formulario.dvRazonsocial3RepresentanteLegal}
+                  onChange={handleChange("dvRazonsocial3RepresentanteLegal")}
+                />
               </div>
             </Form.Group>
             <Form.Group className=" col-12 col-sm-12 col-md-6 col-lg-6 ">
               <Form.Label htmlFor="disabledTextInput">
-                Dirección:<strong>(donde ejerce sus funciones)</strong>
+                Dirección: <strong>( donde ejerce sus funciones )</strong>
               </Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                id="direccionEjerceCargo"
+                placeholder=""
+                defaultValue={formulario.direccionEjerceCargo}
+                onChange={handleChange("direccionEjerceCargo")}
+              />
             </Form.Group>
             <Form.Group className=" col-12 col-sm-6 col-md-3 col-lg-3 ">
               <Form.Label htmlFor="disabledTextInput">Cargo:</Form.Label>
-              <Form.Control id="RazonSocialE" placeholder="" />
+              <Form.Control
+                id="CargoEjercido"
+                placeholder=""
+                defaultValue={formulario.CargoEjercido}
+                onChange={handleChange("CargoEjercido")}
+              />
             </Form.Group>
             <Form.Group className=" col-12 col-sm-6 col-md-3 col-lg-3 ">
               <Form.Label htmlFor="disabledTextInput">Telefono</Form.Label>
-              <Form.Control type="number" id="RazonSocialE" placeholder="" />
+              <Form.Control
+                type="number"
+                id="telefonoCargo"
+                placeholder=""
+                defaultValue={formulario.telefonoCargo}
+                onChange={handleChange("telefonoCargo")}
+              />
             </Form.Group>
           </Row>
         </div>
